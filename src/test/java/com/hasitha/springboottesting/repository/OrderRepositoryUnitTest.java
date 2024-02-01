@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
@@ -46,10 +47,10 @@ public class OrderRepositoryUnitTest {
     @Test
     public void testGetAllOrders() {
         List<Order> orderList = orderRepository.findAll();
-        Assertions.assertThat(orderList.size()).isEqualTo(2);
-        Assertions.assertThat(orderList.get(0).getId()).isNotNegative();
-        Assertions.assertThat(orderList.get(0).getId()).isGreaterThan(0);
-        Assertions.assertThat(orderList.get(0).getBuyer()).isEqualTo("jane");
+        assertThat(orderList.size()).isEqualTo(2);
+        assertThat(orderList.get(0).getId()).isNotNegative();
+        assertThat(orderList.get(0).getId()).isGreaterThan(0);
+        assertThat(orderList.get(0).getBuyer()).isEqualTo("jane");
     }
 
     @Test
@@ -57,20 +58,20 @@ public class OrderRepositoryUnitTest {
         Exception exception = assertThrows(NoSuchElementException.class, () -> {
             orderRepository.findById(120L).get();
         });
-        Assertions.assertThat(exception).isNotNull();
-        Assertions.assertThat(exception.getClass()).isEqualTo(NoSuchElementException.class);
-        Assertions.assertThat(exception.getMessage()).isEqualTo("No value present");
+        assertThat(exception).isNotNull();
+        assertThat(exception.getClass()).isEqualTo(NoSuchElementException.class);
+        assertThat(exception.getMessage()).isEqualTo("No value present");
     }
 
     @Test
     public void testCreateOrder() {
         Order saved = new Order(300L, "tim", 50.0, 4);
         Order returned = orderRepository.save(saved);
-        Assertions.assertThat(returned).isNotNull();
-        Assertions.assertThat(returned.getBuyer()).isNotEmpty();
-        Assertions.assertThat(returned.getId()).isGreaterThan(1);
-        Assertions.assertThat(returned.getId()).isNotNegative();
-        Assertions.assertThat(saved.getBuyer()).isEqualTo(returned.getBuyer());
+        assertThat(returned).isNotNull();
+        assertThat(returned.getBuyer()).isNotEmpty();
+        assertThat(returned.getId()).isGreaterThan(1);
+        assertThat(returned.getId()).isNotNegative();
+        assertThat(saved.getBuyer()).isEqualTo(returned.getBuyer());
     }
 
     @Test
@@ -81,8 +82,8 @@ public class OrderRepositoryUnitTest {
         Exception exception = assertThrows(NoSuchElementException.class, () -> {
             orderRepository.findById(400L).get();
         });
-        Assertions.assertThat(exception).isNotNull();
-        Assertions.assertThat(exception.getClass()).isEqualTo(NoSuchElementException.class);
-        Assertions.assertThat(exception.getMessage()).isEqualTo("No value present");
+        assertThat(exception).isNotNull();
+        assertThat(exception.getClass()).isEqualTo(NoSuchElementException.class);
+        assertThat(exception.getMessage()).isEqualTo("No value present");
     }
 }
